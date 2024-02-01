@@ -1,8 +1,9 @@
-from .task_entity import TaskEntity
+from app.tasks.repositories.task_repository import TaskRepository
 
 
 class TaskService:
+    def __init__(self, repository: TaskRepository):
+        self._repository = repository
+
     def get_tasks(self):
-        return [
-            TaskEntity(id=0, text='hello', status=True),
-        ]
+        return self._repository.get_all()
