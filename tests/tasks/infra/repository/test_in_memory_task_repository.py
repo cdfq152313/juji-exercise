@@ -1,5 +1,6 @@
 import pytest
 
+from app.tasks.entities.task_entity import TaskEntity
 from app.tasks.infra.repositories.in_memory_task_repository import InMemoryTaskRepository, NotFound
 
 
@@ -14,24 +15,26 @@ def test_init_must_be_empty(repository: InMemoryTaskRepository):
 
 
 def test_create_must_success(repository: InMemoryTaskRepository):
-    data = repository.add("hello world")
+    text = "hello world"
+    data = repository.add(text)
     result = repository.get_all()[0]
     assert data == result
+    assert data.text == text
 
 
 def test_update_must_success(repository: InMemoryTaskRepository):
-    data = repository.add("hello world")
-    copy = data.model_copy(update={"text": "hell word", "status": True})
-    repository.update(copy)
+    repository.add("hello world")
+    new_data = TaskEntity(id=0, text="hell word", status=True)
+    repository.update(new_data)
     result = repository.get_all()[0]
-    assert copy == result
+    assert new_data == result
 
 
 def test_update_not_exist_id(repository: InMemoryTaskRepository):
     with pytest.raises(NotFound):
         data = repository.add("hello world")
-        copy = data.model_copy(update={"text": "hell word", "status": True, "id": 3})
-        repository.update(copy)
+        new_data = TaskEntity(id=3310, text="hell word", status=True)
+        repository.update(new_data)
 
 
 def test_delete_must_success(repository: InMemoryTaskRepository):

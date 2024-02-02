@@ -11,5 +11,5 @@ class TaskRepository:
     def update(self, obj: TaskEntity):
         pass
 
-    def delete(self, id: int):
+    def delete(self, task_id: int):
         pass

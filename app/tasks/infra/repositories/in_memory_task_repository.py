@@ -11,7 +11,7 @@ class InMemoryTaskRepository(TaskRepository):
         return sorted(self._dict.values(), key=lambda task_entity: task_entity.id)
 
     def add(self, text: str) -> TaskEntity:
-        obj = TaskEntity(id=self._counter, text=text, status=0)
+        obj = TaskEntity(id=self._counter, text=text, status=False)
         self._counter += 1
         self._dict[obj.id] = obj
         return obj
@@ -22,10 +22,10 @@ class InMemoryTaskRepository(TaskRepository):
         self._dict[obj.id] = obj
         return obj
 
-    def delete(self, id: int):
-        if id not in self._dict:
+    def delete(self, task_id: int):
+        if task_id not in self._dict:
             raise NotFound()
-        self._dict.pop(id)
+        self._dict.pop(task_id)
 
 
 class NotFound(Exception):
