@@ -23,15 +23,27 @@ def test_create_task():
 
 def test_update_task():
     r1 = client.post("/task", json={"text": "hello world"})
+    task_id = r1.json()["result"]["id"]
     task = {
-        "id": r1.json()["result"]["id"],
+        "id": task_id,
         "text": "hell word",
         "status": 1,
     }
-    r2 = client.put("/task", json=task)
+    r2 = client.put(f"/task/{task_id}", json=task)
     assert r2.status_code == 200
     assert r2.headers.get("Content-Type") == "application/json"
     assert r2.json() == {"result": task}
+
+
+def test_update_task_with_different_task_id():
+    task = {
+        "id": 3310,
+        "text": "hell word",
+        "status": 1,
+    }
+    r2 = client.put(f"/task/{9527}", json=task)
+    assert r2.status_code == 400
+    assert r2.headers.get("Content-Type") == "application/json"
 
 
 def test_delete_task():

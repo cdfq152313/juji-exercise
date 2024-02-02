@@ -1,5 +1,5 @@
 from dependency_injector.wiring import inject, Provide
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, HTTPException
 
 from .dto.create_task_dto import CreateTaskDto
 from .dto.task_dto import TaskDto
@@ -26,9 +26,11 @@ async def create_task(text: CreateTaskDto, service: TaskService = ServiceDep) ->
     return ResultDto(result=TaskDto.from_entity(service.create_task(text.text)))
 
 
-@router.put("/task")
+@router.put("/task/{task_id}")
 @inject
-async def update_task(task_dto: TaskDto, service: TaskService = ServiceDep) -> ResultDto[TaskDto]:
+async def update_task(task_id: int, task_dto: TaskDto, service: TaskService = ServiceDep) -> ResultDto[TaskDto]:
+    if task_id != task_dto.id:
+        raise HTTPException(status_code=400, detail="Path parameter and request body id are not the same.")
     return ResultDto(result=TaskDto.from_entity(service.update_task(task_dto.to_entity())))
 
 
