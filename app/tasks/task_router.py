@@ -3,11 +3,12 @@ from fastapi import Depends, APIRouter, HTTPException
 
 from .dto.create_task_dto import CreateTaskDto
 from .dto.task_dto import TaskDto
+from .task_error_route import TaskErrorRoute
 from .task_service import TaskService
 from ..container import Container
 from ..shared.dto.result_dto import ResultDto
 
-router = APIRouter()
+router = APIRouter(route_class=TaskErrorRoute)
 
 ServiceDep = Depends(Provide[Container.task_service])
 
