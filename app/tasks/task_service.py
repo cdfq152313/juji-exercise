@@ -8,3 +8,12 @@ class TaskService:
 
     def get_tasks(self) -> list[TaskEntity]:
         return self._repository.get_all()
+
+    def create_task(self, text: str) -> TaskEntity:
+        return self._repository.add(text)
+
+    def update_task(self, task: TaskEntity) -> TaskEntity:
+        return self._repository.update(task)
+
+    def delete_task(self, id: int):
+        self._repository.delete(id)
