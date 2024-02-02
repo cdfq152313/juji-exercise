@@ -1,0 +1,6 @@
+# idea
+.idea/*
+
+# python
+requirements.txt
+__pycache__/
