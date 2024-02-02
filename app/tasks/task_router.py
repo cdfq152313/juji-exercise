@@ -33,7 +33,7 @@ async def create_task(text: CreateTaskDto, service: TaskService = ServiceDep):
 @inject
 async def update_task(task_dto: TaskDto, service: TaskService = ServiceDep):
     return {
-        "result": TaskDto.from_entity(service.create_task(task_dto.to_entity()))
+        "result": TaskDto.from_entity(service.update_task(task_dto.to_entity()))
     }
 
 
