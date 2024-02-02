@@ -15,7 +15,6 @@ ServiceDep = Depends(Provide[Container.task_service])
 async def get_tasks(service: TaskService = ServiceDep):
     return {
         "result": [
-            TaskRespDto(id=task_entity.id, text=task_entity.text, status=1 if task_entity.status else 0)
-            for task_entity in service.get_tasks()
+            TaskRespDto.from_entity(task_entity) for task_entity in service.get_tasks()
         ]
     }
