@@ -1,5 +1,6 @@
 from dependency_injector.wiring import inject, Provide
 from fastapi import Depends, APIRouter, HTTPException
+from starlette.responses import Response
 
 from .dto.create_task_dto import CreateTaskDto
 from .dto.task_dto import TaskDto
@@ -39,3 +40,4 @@ async def update_task(task_id: int, task_dto: TaskDto, service: TaskService = Se
 @inject
 async def delete_task(task_id: int, service: TaskService = ServiceDep):
     service.delete_task(task_id)
+    return Response(status_code=200)
